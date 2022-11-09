@@ -3,7 +3,7 @@ pragma solidity ^0.5.0;
 contract bttrEscrow {
 
     // mapping msg.sender --> address, and msg.value --> bet/Eth
-    mapping(uint256 => Artwork) public artCollection;
+    mapping(address => address(msg.sender), ) public bettingInfo;
 
     // event to establish changing of odds
     event Odds(int currentOdds)
@@ -25,6 +25,8 @@ contract bttrEscrow {
         }
     }
 
+    //gotta write the function that can do the math and call the function
+    //can make a function that writes to the mapping, python can call that function
     // Payout function 
     function payout() private payable{
 
@@ -47,7 +49,9 @@ contract bttrEscrow {
 
     }
 
-    function callingOdds
+    function callingOdds() private{
+
+    }
 
     // CHECK FUNCTIONS
     function checkBalance() public returns (uint){
