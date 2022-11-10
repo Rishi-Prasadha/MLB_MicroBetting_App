@@ -66,14 +66,14 @@ if st.button("Next Pitch"):
 
     # transaction to the smart contract to clear current bets
 
-    # Need to update on-screen components of the streamlit application
+    # Need to update on-screen components of the streamlit
 
-# student_account = st.selectbox("Select Account", options=accounts)
-# certificate_details = st.text_input("Certificate Details", value="FinTech Certificate of Completion")
+if st.button("Submit Transaction"):
+    # Send a transaction to the smart contract to make a bet 
+
+
 # if st.button("Award Certificate"):
 #     contract.functions.awardCertificate(student_account, certificate_details).transact({'from': account, 'gas': 1000000})
 
-# func has to return addresses and betting amount 
-# math happens in python
-# send back payout to solidity
-# in solidity we will have to create a new dictionary with addresses and payouts
+# All the math with odds happen in the front end streamlit part
+# All the payout or lack thereof math happens in the smart contract

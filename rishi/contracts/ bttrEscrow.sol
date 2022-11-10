@@ -9,7 +9,7 @@ contract bttrEscrow {
     event Odds(int currentOdds)
 
     //Function where user will submit their bets
-    function makeBet(string memory pitchType) public payable{
+    function makeBet() public payable{
 
     }
 
