@@ -10,19 +10,7 @@ contract bttrEscrow {
 
     //Function where user will submit their bets
     function makeBet(string memory pitchType) public payable{
-        require(pitchType == "Fastball" || pitchType == "Curveball" || pitchType == "Slider" || pitchType == "Changeup", "Please enter a valid pitch!");
-        if (pitchType == "Fastball"){
 
-        }
-        if (pitchType == "Curveball"){
-
-        }
-        if (pitchType == "Changeup"){
-
-        }
-        if (pitchType == "Slider"){
-
-        }
     }
 
     //gotta write the function that can do the math and call the function
@@ -36,22 +24,14 @@ contract bttrEscrow {
 
         // for each address, payout --> loop
 
+        // delete existing bets for current pitch
+
         // How do you trigger a private function?
         // How do you refer to the model's odds and pull the values into the contracts?
 
     }
     // Fallback function
     function() external payable{}
-
-    //Function that has repeatable, calling tasks
-
-    function dataReset() private {
-
-    }
-
-    function callingOdds() private{
-
-    }
 
     // CHECK FUNCTIONS
     function checkBalance() public returns (uint){
@@ -60,9 +40,5 @@ contract bttrEscrow {
 
     function checkMessage() public returns (string memory){
         return msg.data;
-
-}
-
-contract bttrEscrowDeployer {
 
 }
