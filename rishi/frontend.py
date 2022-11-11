@@ -63,7 +63,8 @@ st.write("DISPLAY COUNT")
 
 pitch_type = st.selectbox("Enter what type of pitch is coming next", ('Fastball', 'Curveball', 'Changeup', 'Slider'))
 bet_amount = st.text_input("Enter how much you want to bet (in ETH)")
-payout = (odds[pitch_type] * 100) * bet_amount
+payout = 0.98*((1/odds[pitch_type]) * bet_amount)
+# or payout = ((1/odds[pitch_type]) * bet_amount) - (0.02)*((1/odds[pitch_type]) * bet_amount)
 
 # Holder dataframe that keeps all bets logged before sending to smart contract
 ff_list = pd.DataFrame({
