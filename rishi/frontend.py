@@ -43,42 +43,73 @@ w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
 ################################################################################
 # Design
 ################################################################################
+st.set_page_config(page_title = 'BTTR', page_icon = '../images/dice.png')
 
-st.markdown("# BTTR")
-st.markdown("## *The better betting app*")
+with st.container():
+    col1, col2 = st.columns([1, 6])
+    with col1:
+        st.image('../images/dice.png')
+
+    with col2:
+        st.title("BTTR")
+        
+    st.caption("## *The better betting app*")
+
+st.markdown('---')
+
+col1, col2 = st.columns([1, 1])
+with col1:
+    st.subheader('Current Pitch Number:')
+with col2:
+    st.subheader('Current Pitch Count:')
+
+st.markdown('---')
+
+with st.container():
+    st.markdown('#### Select what type of pitch you think is coming next:')
+    pitch_type = st.selectbox("Enter what type of pitch you think is coming next", ('Fastball', 'Curveball', 'Changeup', 'Slider'), label_visibility = 'hidden')
+
+    st.subheader('Odds of Selected Pitch:')
+
+st.markdown('---')
+
+with st.container():
+    st.markdown('#### To make a bet:')
+    address = st.text_input("Enter your Ethereum address here")
+    bet_amount = st.text_input("Enter how much you want to bet (in ETH)")
 
 ################################################################################
 # Place the bet
 ################################################################################
 
-address = st.text_input("Enter your Ethereum address here")
+# address = st.text_input("Enter your Ethereum address here")
 
-st.write("DISPLAY ODDS")
-st.write("DISPLAY PITCH NUMBER")
-st.write("DISPLAY COUNT")
+# st.write("DISPLAY ODDS")
+# st.write("DISPLAY PITCH NUMBER")
+# st.write("DISPLAY COUNT")
 
-pitch_type = st.selectbox("Enter what type of pitch is coming next", ('Fastball', 'Curveball', 'Changeup', 'Slider'))
-bet_amount = st.text_input("Enter how much you want to bet (in ETH)")
+# pitch_type = st.selectbox("Enter what type of pitch is coming next", ('Fastball', 'Curveball', 'Changeup', 'Slider'))
+# bet_amount = st.text_input("Enter how much you want to bet (in ETH)")
 
 
-if st.button("Next Pitch"):
-    # send a transaction that pays out or keeps funds if they lose 
+# if st.button("Next Pitch"):
+#     # send a transaction that pays out or keeps funds if they lose 
 
-    # transaction to the smart contract to clear current bets
+#     # transaction to the smart contract to clear current bets
 
-    # Need to update on-screen components of the streamlit
+#     # Need to update on-screen components of the streamlit
 
-if st.button("Make Bet"):
-    # Address, bet amount along with total payout with the odds, growing dataframe 
+# if st.button("Make Bet"):
+#     # Address, bet amount along with total payout with the odds, growing dataframe 
 
-    payout = 
+#     payout = 
 
-if st.button("Submit Transaction"):
+# if st.button("Submit Transaction"):
     # Send a transaction to the smart contract to make a bet 
 
 
 # if st.button("Award Certificate"):
-     contract.functions.awardCertificate(student_account, certificate_details).transact({'from': account, 'gas': 1000000})
+    #  contract.functions.awardCertificate(student_account, certificate_details).transact({'from': account, 'gas': 1000000})
 
 # All the math with odds happen in the front end streamlit part
 # All the payout or lack thereof math happens in the smart contract
