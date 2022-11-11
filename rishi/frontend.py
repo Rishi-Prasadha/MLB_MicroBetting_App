@@ -44,9 +44,40 @@ contract = load_contract()
 ################################################################################
 # Design
 ################################################################################
+st.set_page_config(page_title = 'BTTR', page_icon = '../images/dice.png')
 
-st.markdown("# BTTR")
-st.markdown("## *The better betting app*")
+with st.container():
+    col1, col2 = st.columns([1, 6])
+    with col1:
+        st.image('../images/dice.png')
+
+    with col2:
+        st.title("BTTR")
+        
+    st.caption("## *The better betting app*")
+
+st.markdown('---')
+
+col1, col2 = st.columns([1, 1])
+with col1:
+    st.subheader('Current Pitch Number:')
+with col2:
+    st.subheader('Current Pitch Count:')
+
+st.markdown('---')
+
+with st.container():
+    st.markdown('#### Select what type of pitch you think is coming next:')
+    pitch_type = st.selectbox("Enter what type of pitch you think is coming next", ('Fastball', 'Curveball', 'Changeup', 'Slider'), label_visibility = 'hidden')
+
+    st.subheader('Odds of Selected Pitch:')
+
+st.markdown('---')
+
+with st.container():
+    st.markdown('#### To make a bet:')
+    address = st.text_input("Enter your Ethereum address here")
+    bet_amount = st.text_input("Enter how much you want to bet (in ETH)")
 
 ################################################################################
 # Place the bet
@@ -55,14 +86,12 @@ st.markdown("## *The better betting app*")
 accounts = w3.eth.accounts
 account = accounts[0]
 
-address = st.text_input("Enter your Ethereum address here")
+# st.write("DISPLAY ODDS")
+# st.write("DISPLAY PITCH NUMBER")
+# st.write("DISPLAY COUNT")
 
-st.write("DISPLAY ODDS")
-st.write("DISPLAY PITCH NUMBER")
-st.write("DISPLAY COUNT")
-
-pitch_type = st.selectbox("Enter what type of pitch is coming next", ('Fastball', 'Curveball', 'Changeup', 'Slider'))
-bet_amount = st.text_input("Enter how much you want to bet (in ETH)")
+# pitch_type = st.selectbox("Enter what type of pitch is coming next", ('Fastball', 'Curveball', 'Changeup', 'Slider'))
+# bet_amount = st.text_input("Enter how much you want to bet (in ETH)")
 payout = 0.98*((1/odds[pitch_type]) * bet_amount)
 # or payout = ((1/odds[pitch_type]) * bet_amount) - (0.02)*((1/odds[pitch_type]) * bet_amount)
 
@@ -130,7 +159,7 @@ if st.button("Make Bet"):
 ################################# NEXT PITCH LOGIC ########################################
 st.markdown("When you're ready to move on to the next pitch please press *Next Pitch*")
 pitch_count = 0
-if st.button("Next Pitch"):
+# if st.button("Next Pitch"):
     # payout = (odds[pitch_type] * 100) * bet_amount
     next_pitch = list(verlander_df['pitch_type'])
     if next_pitch[pitch_count] == "SL":
@@ -150,11 +179,11 @@ if st.button("Next Pitch"):
         for address in ch_address:
             contract.functions.payout(address, payout).transact({'from':account, 'gas': 1000000})
     pitch_count += 1
-    # send a transaction that pays out or keeps funds if they lose 
+#     # send a transaction that pays out or keeps funds if they lose 
 
-    # transaction to the smart contract to clear current bets
+#     # transaction to the smart contract to clear current bets
 
-    # Need to update on-screen components of the streamlit
+#     # Need to update on-screen components of the streamlit
 
 # if st.button("Submit Transaction"):
 #     # Send a transaction to the smart contract to make a bet 
