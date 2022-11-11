@@ -9,8 +9,8 @@ contract bttrEscrow {
     event Odds(int currentOdds)
 
     //Function where user will submit their bets
-    function makeBet(address payable account, int payout) public payable{
-
+    function makeBet(address payable account, int payout, int betAmount) public payable{
+        address(this).transfer(betAmount)
     }
 
     //gotta write the function that can do the math and call the function

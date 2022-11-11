@@ -148,7 +148,7 @@ if st.button("Make Bet"):
         sl_df["Payout"].append(payout)
 
     # Submit the transaction to the smart contract 
-    contract.functions.makeBet(address, payout).transact({'from': account, 'gas': 1000000})
+    contract.functions.makeBet(address, payout, bet_amount).transact({'from': account, 'gas': 1000000})
 
 
 ################################# NEXT PITCH LOGIC ########################################
@@ -216,7 +216,6 @@ if st.button("Next Pitch"):
     })
 
     pitch_count += 1
-
 
     # send a transaction that pays out or keeps funds if they lose 
 
