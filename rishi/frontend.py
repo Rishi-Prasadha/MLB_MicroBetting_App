@@ -68,12 +68,17 @@ if st.button("Next Pitch"):
 
     # Need to update on-screen components of the streamlit
 
+if st.button("Make Bet"):
+    # Address, bet amount along with total payout with the odds, growing dataframe 
+
+    payout = 
+
 if st.button("Submit Transaction"):
     # Send a transaction to the smart contract to make a bet 
 
 
 # if st.button("Award Certificate"):
-#     contract.functions.awardCertificate(student_account, certificate_details).transact({'from': account, 'gas': 1000000})
+     contract.functions.awardCertificate(student_account, certificate_details).transact({'from': account, 'gas': 1000000})
 
 # All the math with odds happen in the front end streamlit part
 # All the payout or lack thereof math happens in the smart contract
