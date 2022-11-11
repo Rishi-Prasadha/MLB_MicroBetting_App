@@ -86,14 +86,6 @@ with st.container():
 accounts = w3.eth.accounts
 account = accounts[0]
 
-# st.write("DISPLAY ODDS")
-# st.write("DISPLAY PITCH NUMBER")
-# st.write("DISPLAY COUNT")
-
-st.write("DISPLAY ODDS")
-st.write("DISPLAY PITCH NUMBER")
-st.write("DISPLAY COUNT")
-
 st.markdown("*FF = Fastball, CU = Curveball, CH = Changeup, SL = Slider*")
 pitch_type = st.selectbox("Enter what type of pitch is coming next", ('FF', 'CU', 'CH', 'SL'))
 bet_amount = st.text_input("Enter how much you want to bet (in ETH)")
@@ -194,8 +186,34 @@ if st.button("Next Pitch"):
             contract.functions.payout(address, ch_payouts[i]).transact({'from':account, 'gas': 1000000})
             i += 1
 
-    # Need to delete the data held in dataframes
+    # Need to delete and reset the data held in dataframes
+    ff_df = pd.DataFrame({
+    "Address": [],
+    "Bet Amount": [],
+    "Odds": [],
+    "Payout": []
+    })
 
+    cu_df = pd.DataFrame({
+        "Address": [],
+        "Bet Amount": [],
+        "Odds": [],
+        "Payout": []
+    })
+
+    ch_df = pd.DataFrame({
+        "Address": [],
+        "Bet Amount": [],
+        "Odds": [],
+        "Payout": []
+    })
+
+    sl_df = pd.DataFrame({
+        "Address": [],
+        "Bet Amount": [],
+        "Odds": [],
+        "Payout": []
+    })
 
     pitch_count += 1
 
