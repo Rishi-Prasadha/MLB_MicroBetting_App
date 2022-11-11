@@ -9,15 +9,18 @@ contract bttrEscrow {
     event Odds(int currentOdds)
 
     //Function where user will submit their bets
-    function makeBet() public payable{
+    function makeBet(address payable account, int payout) public payable{
 
     }
 
     //gotta write the function that can do the math and call the function
     //can make a function that writes to the mapping, python can call that function
     // Payout function 
-    function payout() private payable{
-
+    function payout(address payable recipient, uint amount) public payable{
+        if (amount < balance) {
+            recipient.transfer(amount);
+            balance = address(this).balance;
+        }
         // recalling all the bets made for this instance
 
         // calculate payouts based on odds for that instance
@@ -30,6 +33,7 @@ contract bttrEscrow {
         // How do you refer to the model's odds and pull the values into the contracts?
 
     }
+
     // Fallback function
     function() external payable{}
 
