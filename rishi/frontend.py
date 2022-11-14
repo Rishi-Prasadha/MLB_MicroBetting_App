@@ -4,7 +4,7 @@ from web3 import Web3
 from pathlib import Path
 from dotenv import load_dotenv
 import streamlit as st
-# from noah import starter_code 
+import project2 as p2
 # to refer to noah's variables it will be: starter_code.variableName
 import pandas as pd
 
@@ -86,10 +86,7 @@ with st.container():
 accounts = w3.eth.accounts
 account = accounts[0]
 
-st.markdown("*FF = Fastball, CU = Curveball, CH = Changeup, SL = Slider*")
-pitch_type = st.selectbox("Enter what type of pitch is coming next", ('FF', 'CU', 'CH', 'SL'))
-bet_amount = st.text_input("Enter how much you want to bet (in ETH)")
-payout = 0.98*((1/odds[pitch_type]) * bet_amount)
+payout = 0.98*((1/p2.odds[pitch_type]) * bet_amount)
 # or payout = ((1/odds[pitch_type]) * bet_amount) - (0.02)*((1/odds[pitch_type]) * bet_amount)
 
 # Holder dataframe that keeps all bets logged before sending to smart contract
