@@ -3,23 +3,23 @@ pragma solidity ^0.5.0;
 contract bttrEscrow {
 
     // mapping msg.sender --> address, and msg.value --> bet/Eth
-    mapping(address => address(msg.sender), ) public bettingInfo;
+    // mapping(address => address(msg.sender), ) public bettingInfo;
 
     // event to establish changing of odds
-    event Odds(int currentOdds)
+    event Odds(int currentOdds);
 
     //Function where user will submit their bets
-    function makeBet(address payable account, int payout, int betAmount) public payable{
-        address(this).transfer(betAmount)
+    function makeBet(uint betAmount) public payable {
+        address(this).transfer(betAmount);
     }
 
     //gotta write the function that can do the math and call the function
     //can make a function that writes to the mapping, python can call that function
     // Payout function 
     function payout(address payable recipient, uint amount) public payable{
-        if (amount < balance) {
+        if (amount < address(this).balance) {
             recipient.transfer(amount);
-            balance = address(this).balance;
+            //uint balance = address(this).balance;
         }
         // recalling all the bets made for this instance
 
@@ -38,11 +38,12 @@ contract bttrEscrow {
     function() external payable{}
 
     // CHECK FUNCTIONS
-    function checkBalance() public returns (uint){
-        return address(this).balance;
-    }
+    // function checkBalance() public returns (uint){
+    //     return address(this).balance;
+    // }
 
-    function checkMessage() public returns (string memory){
-        return msg.data;
+    // function checkMessage() public returns (string memory){
+    //     return msg.data;
+    // }
 
 }
