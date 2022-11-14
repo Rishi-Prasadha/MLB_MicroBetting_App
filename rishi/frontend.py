@@ -18,7 +18,7 @@ w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
 ################################################################################
 
 # Cache the contract on load
-@st.cache(allow_output_mutation=True)
+# @st.cache(allow_output_mutation=True)
 # Define the load_contract function
 def load_contract():
 
@@ -77,16 +77,16 @@ st.markdown('---')
 with st.container():
     st.markdown('#### To make a bet:')
     address = st.text_input("Enter your Ethereum address here")
-    bet_amount = st.text_input("Enter how much you want to bet (in ETH)")
+    bet_amount = st.number_input("Enter how much you want to bet (in ETH)")
 
 ################################################################################
 # Place the bet
 ################################################################################
 
-accounts = w3.eth.accounts
-account = accounts[0]
+# accounts = w3.eth.accounts
+# account = accounts[0]
 
-payout = 0.98*((1/p2.odds[pitch_type]) * bet_amount)
+payout = 0.98*((1/p2.odds[pitch_type]) * float(bet_amount))
 # or payout = ((1/odds[pitch_type]) * bet_amount) - (0.02)*((1/odds[pitch_type]) * bet_amount)
 
 # Holder dataframe that keeps all bets logged before sending to smart contract
