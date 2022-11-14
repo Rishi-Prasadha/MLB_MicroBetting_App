@@ -84,7 +84,7 @@ with st.container():
 ################################################################################
 
 # accounts = w3.eth.accounts
-# account = accounts[0]
+# account = accounts[9]
 
 payout = 0.98*((1/p2.odds[pitch_type]) * float(bet_amount))
 # or payout = ((1/odds[pitch_type]) * bet_amount) - (0.02)*((1/odds[pitch_type]) * bet_amount)
@@ -124,28 +124,40 @@ if st.button("Make Bet"):
 
     # Store bets in dataframes
     if pitch_type == "Fastball":
-        ff_df["Address"].append(address)
-        ff_df["Bet Amount"].append(bet_amount)
-        ff_df["Odds"].append(p2.odds[pitch_type])
-        ff_df["Payout"].append(payout)
+        current_bttr = pd.DataFrame({
+            "Address": address,
+            "Bet Amount": bet_amount,
+            "Odds": p2.odds[pitch_type],
+            "Payout": payout       
+        })
+        ff_df.append(current_bttr)
     elif pitch_type == "Curveball":
-        cu_df["Address"].append(address)
-        cu_df["Bet Amount"].append(bet_amount)
-        cu_df["Odds"].append(p2.odds[pitch_type])
-        cu_df["Payout"].append(payout)  
+        current_bttr = pd.DataFrame({
+            "Address": address,
+            "Bet Amount": bet_amount,
+            "Odds": p2.odds[pitch_type],
+            "Payout": payout       
+        })
+        cu_df.append(current_bttr)
     elif pitch_type == "Changeup":
-        ch_df["Address"].append(address)
-        ch_df["Bet Amount"].append(bet_amount)
-        ch_df["Odds"].append(p2.odds[pitch_type])
-        ch_df["Payout"].append(payout)
+        current_bttr = pd.DataFrame({
+            "Address": address,
+            "Bet Amount": bet_amount,
+            "Odds": p2.odds[pitch_type],
+            "Payout": payout       
+        })
+        ch_df.append(current_bttr)
     else:
-        sl_df["Address"].append(address)
-        sl_df["Bet Amount"].append(bet_amount)
-        sl_df["Odds"].append(p2.odds[pitch_type])
-        sl_df["Payout"].append(payout)
+        current_bttr = pd.DataFrame({
+            "Address": address,
+            "Bet Amount": bet_amount,
+            "Odds": p2.odds[pitch_type],
+            "Payout": payout       
+        })
+        sl_df.append(current_bttr)
 
     # Submit the transaction to the smart contract 
-    contract.functions.makeBet(address, payout, bet_amount).transact({'from': account, 'gas': 1000000})
+    contract.functions.makeBet(int(bet_amount)).transact({'from': "0x776A8025f70bBf241f95DB6fCa19EC67eF7c7139", 'gas': 1000000})
 
 
 ################################# NEXT PITCH LOGIC ########################################
@@ -159,28 +171,28 @@ if st.button("Next Pitch"):
         sl_payouts = list(sl_df['Payout'])
         i = 0
         for address in sl_address:
-            contract.functions.payout(address, sl_payouts[i]).transact({'from':account, 'gas': 1000000})
+            contract.functions.payout(address, int(sl_payouts[i])).transact({'from':"0x776A8025f70bBf241f95DB6fCa19EC67eF7c7139", 'gas': 1000000})
             i += 1
     elif next_pitch[pitch_count] == "FF":
         ff_address = list(ff_df['Address'])
         ff_payouts = list(ff_df['Payout'])
         i = 0
         for address in ff_address:
-            contract.functions.payout(address, ff_payouts[i]).transact({'from':account, 'gas': 1000000})
+            contract.functions.payout(address, int(ff_payouts[i])).transact({'from':"0x776A8025f70bBf241f95DB6fCa19EC67eF7c7139", 'gas': 1000000})
             i += 1
     elif next_pitch[pitch_count] == "CU":
         cu_address = list(cu_df['Address'])
         cu_payouts = list(cu_df['Payout'])
         i = 0
         for address in cu_address:
-            contract.functions.payout(address, cu_payouts[i]).transact({'from':account, 'gas': 1000000})
+            contract.functions.payout(address, int(cu_payouts[i])).transact({'from':"0x776A8025f70bBf241f95DB6fCa19EC67eF7c7139", 'gas': 1000000})
             i += 1
     elif next_pitch[pitch_count] == "CH":
         ch_address = list(ch_df['Address'])
         ch_payouts = list(ch_df['Payout'])
         i = 0
         for address in ch_address:
-            contract.functions.payout(address, ch_payouts[i]).transact({'from':account, 'gas': 1000000})
+            contract.functions.payout(address, int(ch_payouts[i])).transact({'from':"0x776A8025f70bBf241f95DB6fCa19EC67eF7c7139", 'gas': 1000000})
             i += 1
 
     # Need to delete and reset the data held in dataframes

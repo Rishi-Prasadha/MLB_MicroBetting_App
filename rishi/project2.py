@@ -345,348 +345,348 @@ lime_exp = lime_explainer.explain_instance(
 
 #Define the new, optimized model
 
-nn_v1 = Sequential()
+# nn_v1 = Sequential()
 
 
-# In[24]:
+# # In[24]:
 
 
-# Design the network architecture 
+# # Design the network architecture 
 
-# Define the model - deep neural net
-number_input_features = len(X.columns)
-number_output = 4
+# # Define the model - deep neural net
+# number_input_features = len(X.columns)
+# number_output = 4
 
-# Define hidden layers
-i = 0
-hidden_nodes_layer=(number_input_features+number_output)/2
-while hidden_nodes_layer/2 > 4: 
-    if i == 0:
-        nn_v1.add(Dense(units=round(hidden_nodes_layer), input_dim=number_input_features, activation='relu'))
-        i+=1
-    else:
-        hidden_nodes_layer = (hidden_nodes_layer+number_output)/2
-        nn_v1.add(Dense(units=round(hidden_nodes_layer), activation='relu'))
-        i+=1
+# # Define hidden layers
+# i = 0
+# hidden_nodes_layer=(number_input_features+number_output)/2
+# while hidden_nodes_layer/2 > 4: 
+#     if i == 0:
+#         nn_v1.add(Dense(units=round(hidden_nodes_layer), input_dim=number_input_features, activation='relu'))
+#         i+=1
+#     else:
+#         hidden_nodes_layer = (hidden_nodes_layer+number_output)/2
+#         nn_v1.add(Dense(units=round(hidden_nodes_layer), activation='relu'))
+#         i+=1
 
-# Define output layer
-nn_v1.add(Dense(units=number_output, activation='softmax'))
+# # Define output layer
+# nn_v1.add(Dense(units=number_output, activation='softmax'))
 
-# Compile the model
-nn_v1.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+# # Compile the model
+# nn_v1.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-# print(len(X.columns))
-# display(nn_v1.summary())
+# # print(len(X.columns))
+# # display(nn_v1.summary())
 
 
-# In[25]:
+# # In[25]:
 
 
-# Fit the data to the model
+# # Fit the data to the model
 
-model_v1 = nn_v1.fit(X_train, y_train, epochs=500)
+# model_v1 = nn_v1.fit(X_train, y_train, epochs=500)
 
 
-# In[26]:
+# # In[26]:
 
 
-# Plot the loss over epochs
+# # Plot the loss over epochs
 
-plt.plot(model_v1.history["loss"])
-plt.title("Model V1 Training Loss Function")
-plt.xlabel('Epochs')
-plt.ylabel('Loss')
-plt.show()
+# plt.plot(model_v1.history["loss"])
+# plt.title("Model V1 Training Loss Function")
+# plt.xlabel('Epochs')
+# plt.ylabel('Loss')
+# plt.show()
 
 
-# In[27]:
+# # In[27]:
 
 
-# Plot the accuracy over epochs
+# # Plot the accuracy over epochs
 
-plt.plot(model_v1.history["accuracy"])
-plt.title("Model V1 Training Accuracy Function")
-plt.xlabel('Epochs')
-plt.ylabel('Accuracy')
-plt.show()
+# plt.plot(model_v1.history["accuracy"])
+# plt.title("Model V1 Training Accuracy Function")
+# plt.xlabel('Epochs')
+# plt.ylabel('Accuracy')
+# plt.show()
 
 
-# In[28]:
+# # In[28]:
 
 
-# Evaluate model on test set
+# # Evaluate model on test set
 
-model_loss, model_accuracy = nn_v1.evaluate(
-    X_test, y_test, verbose=2
-)
-# print(f"Loss: {model_loss}, Accuracy: {model_accuracy}")
+# model_loss, model_accuracy = nn_v1.evaluate(
+#     X_test, y_test, verbose=2
+# )
+# # print(f"Loss: {model_loss}, Accuracy: {model_accuracy}")
 
 
-# In[29]:
+# # In[29]:
 
 
-# Have the neural network cast its prediction on what pitch is next
+# # Have the neural network cast its prediction on what pitch is next
 
-y_pred = nn_v1.predict(X_test)
-pred_final = np.argmax(y_pred, axis=1)
+# y_pred = nn_v1.predict(X_test)
+# pred_final = np.argmax(y_pred, axis=1)
 
-# Translate results into pitch type
+# # Translate results into pitch type
 
-y_pred_converted = []
-for numbers in pred_final:
-    if numbers == 0:
-        y_pred_converted.append('CH')
-    elif numbers == 1:
-        y_pred_converted.append('CU')
-    elif numbers == 2:
-        y_pred_converted.append('FF')
-    else: 
-        y_pred_converted.append('SL')
+# y_pred_converted = []
+# for numbers in pred_final:
+#     if numbers == 0:
+#         y_pred_converted.append('CH')
+#     elif numbers == 1:
+#         y_pred_converted.append('CU')
+#     elif numbers == 2:
+#         y_pred_converted.append('FF')
+#     else: 
+#         y_pred_converted.append('SL')
 
-# Place results into dataframe
+# # Place results into dataframe
 
-final_results_v1 = pd.DataFrame({
-    'Predictions': y_pred_converted,
-    'Actual':  y_test_reverted})
+# final_results_v1 = pd.DataFrame({
+#     'Predictions': y_pred_converted,
+#     'Actual':  y_test_reverted})
 
-# display(final_results_v1.head())
-# print(classification_report(final_results_v1['Actual'], final_results_v1['Predictions']))
+# # display(final_results_v1.head())
+# # print(classification_report(final_results_v1['Actual'], final_results_v1['Predictions']))
 
 
-# ### Optimized Model 2
-# 
-# From Keras, use the stochastic gradient descent (SGD) optimizer that is an iterative method for optimizing an objective function with suitable smoothness properties
+# # ### Optimized Model 2
+# # 
+# # From Keras, use the stochastic gradient descent (SGD) optimizer that is an iterative method for optimizing an objective function with suitable smoothness properties
 
-# In[30]:
+# # In[30]:
 
 
-# Define the model
+# # Define the model
 
-nn_v2 = Sequential()
+# nn_v2 = Sequential()
 
 
-# In[31]:
+# # In[31]:
 
 
-# Design the network architecture 
+# # Design the network architecture 
 
-import tensorflow as tf
+# import tensorflow as tf
 
-tf.keras.optimizers.Adadelta()
-#from keras.optimizers import Adadelta
-# Define the model - deep neural net
+# tf.keras.optimizers.Adadelta()
+# #from keras.optimizers import Adadelta
+# # Define the model - deep neural net
 
-total_neurons = len(X.columns)*(2/3)
-number_input_features = len(X.columns)
-number_output = 4
+# total_neurons = len(X.columns)*(2/3)
+# number_input_features = len(X.columns)
+# number_output = 4
 
-# Define hidden layers
-i = 0
-hidden_nodes_layer=(number_input_features+number_output)/2
-while hidden_nodes_layer/2 > 4: 
-    if i == 0:
-        nn_v2.add(Dense(units=round(hidden_nodes_layer), input_dim=number_input_features, activation='relu'))
-        i+=1
-    else:
-        hidden_nodes_layer = (hidden_nodes_layer+number_output)/2
-        nn_v2.add(Dense(units=round(hidden_nodes_layer), activation='relu'))
-        i+=1
+# # Define hidden layers
+# i = 0
+# hidden_nodes_layer=(number_input_features+number_output)/2
+# while hidden_nodes_layer/2 > 4: 
+#     if i == 0:
+#         nn_v2.add(Dense(units=round(hidden_nodes_layer), input_dim=number_input_features, activation='relu'))
+#         i+=1
+#     else:
+#         hidden_nodes_layer = (hidden_nodes_layer+number_output)/2
+#         nn_v2.add(Dense(units=round(hidden_nodes_layer), activation='relu'))
+#         i+=1
 
-# Define output layer
-nn_v2.add(Dense(units=number_output, activation='softmax'))
+# # Define output layer
+# nn_v2.add(Dense(units=number_output, activation='softmax'))
 
-# Compile the model
-nn_v2.compile(loss='categorical_crossentropy', optimizer='adadelta', metrics=['accuracy'])
+# # Compile the model
+# nn_v2.compile(loss='categorical_crossentropy', optimizer='adadelta', metrics=['accuracy'])
 
-# display(nn_v2.summary())
+# # display(nn_v2.summary())
 
 
-# In[32]:
+# # In[32]:
 
 
-# Fit the data to the model
+# # Fit the data to the model
 
-model_v2 = nn_v2.fit(X_train, y_train, epochs=100)
+# model_v2 = nn_v2.fit(X_train, y_train, epochs=100)
 
 
-# In[33]:
+# # In[33]:
 
 
-# Plot the loss over epochs
+# # Plot the loss over epochs
 
-plt.plot(model_v2.history["loss"])
-plt.title("Model V2 Training Loss Function")
-plt.xlabel('Epochs')
-plt.ylabel('Loss')
-plt.show()
+# plt.plot(model_v2.history["loss"])
+# plt.title("Model V2 Training Loss Function")
+# plt.xlabel('Epochs')
+# plt.ylabel('Loss')
+# plt.show()
 
 
-# In[34]:
+# # In[34]:
 
 
-# Plot the accuracy over epochs
+# # Plot the accuracy over epochs
 
-plt.plot(model_v2.history["accuracy"])
-plt.title("Model V2 Training Accuracy Function")
-plt.xlabel('Epochs')
-plt.ylabel('Accuracy')
-plt.show()
+# plt.plot(model_v2.history["accuracy"])
+# plt.title("Model V2 Training Accuracy Function")
+# plt.xlabel('Epochs')
+# plt.ylabel('Accuracy')
+# plt.show()
 
 
-# In[35]:
+# # In[35]:
 
 
-# Evaluate model on test set
+# # Evaluate model on test set
 
-model_loss, model_accuracy = nn_v2.evaluate(
-    X_test, y_test, verbose=2
-)
-# print(f"Loss: {model_loss}, Accuracy: {model_accuracy}")
+# model_loss, model_accuracy = nn_v2.evaluate(
+#     X_test, y_test, verbose=2
+# )
+# # print(f"Loss: {model_loss}, Accuracy: {model_accuracy}")
 
 
-# In[36]:
+# # In[36]:
 
 
-# Have the neural network cast its prediction on what pitch is next
+# # Have the neural network cast its prediction on what pitch is next
 
-y_pred = nn_v2.predict(X_test)
-pred_final = np.argmax(y_pred, axis=1)
+# y_pred = nn_v2.predict(X_test)
+# pred_final = np.argmax(y_pred, axis=1)
 
-# Translate results into pitch type
+# # Translate results into pitch type
 
-y_pred_converted = []
-for numbers in pred_final:
-    if numbers == 0:
-        y_pred_converted.append('CH')
-    elif numbers == 1:
-        y_pred_converted.append('CU')
-    elif numbers == 2:
-        y_pred_converted.append('FF')
-    else: 
-        y_pred_converted.append('SL')
+# y_pred_converted = []
+# for numbers in pred_final:
+#     if numbers == 0:
+#         y_pred_converted.append('CH')
+#     elif numbers == 1:
+#         y_pred_converted.append('CU')
+#     elif numbers == 2:
+#         y_pred_converted.append('FF')
+#     else: 
+#         y_pred_converted.append('SL')
 
-# Put results into dataframe
+# # Put results into dataframe
 
-final_results_v2 = pd.DataFrame({
-    'Predictions': y_pred_converted,
-    'Actual':  y_test_reverted})
+# final_results_v2 = pd.DataFrame({
+#     'Predictions': y_pred_converted,
+#     'Actual':  y_test_reverted})
 
-# display(final_results_v2.head())
-# print(classification_report(final_results_v2['Actual'], final_results_v2['Predictions']))
+# # display(final_results_v2.head())
+# # print(classification_report(final_results_v2['Actual'], final_results_v2['Predictions']))
 
 
-# ### Optimized Model 3
-# 
-# From Keras, use the stochastic gradient descent (SGD) optimizer that is an iterative method for optimizing an objective function with suitable smoothness properties
+# # ### Optimized Model 3
+# # 
+# # From Keras, use the stochastic gradient descent (SGD) optimizer that is an iterative method for optimizing an objective function with suitable smoothness properties
 
-# In[37]:
+# # In[37]:
 
 
-# Define the model
+# # Define the model
 
-nn_v3 = Sequential()
+# nn_v3 = Sequential()
 
 
-# In[38]:
+# # In[38]:
 
 
-# Design the network architecture 
+# # Design the network architecture 
 
-from keras.optimizers import SGD
-# Define the model - deep neural net
+# from keras.optimizers import SGD
+# # Define the model - deep neural net
 
-number_input_features = len(X.columns)
-number_output = 4
+# number_input_features = len(X.columns)
+# number_output = 4
 
-# Define hidden layers
-i = 0
-hidden_nodes_layer=(number_input_features+number_output)/2
-while hidden_nodes_layer/2 > 4: 
-    if i == 0:
-        nn_v3.add(Dense(units=round(hidden_nodes_layer), input_dim=number_input_features, activation='relu'))
-        i+=1
-    else:
-        hidden_nodes_layer = (hidden_nodes_layer+number_output)/2
-        nn_v3.add(Dense(units=round(hidden_nodes_layer), activation='relu'))
-        i+=1
+# # Define hidden layers
+# i = 0
+# hidden_nodes_layer=(number_input_features+number_output)/2
+# while hidden_nodes_layer/2 > 4: 
+#     if i == 0:
+#         nn_v3.add(Dense(units=round(hidden_nodes_layer), input_dim=number_input_features, activation='relu'))
+#         i+=1
+#     else:
+#         hidden_nodes_layer = (hidden_nodes_layer+number_output)/2
+#         nn_v3.add(Dense(units=round(hidden_nodes_layer), activation='relu'))
+#         i+=1
 
-# Define output layer
-nn_v3.add(Dense(units=number_output, activation='softmax'))
+# # Define output layer
+# nn_v3.add(Dense(units=number_output, activation='softmax'))
 
-# Compile the model
-nn_v3.compile(loss='categorical_crossentropy', optimizer='sgd', metrics=['accuracy'])
+# # Compile the model
+# nn_v3.compile(loss='categorical_crossentropy', optimizer='sgd', metrics=['accuracy'])
 
-# display(nn_v3.summary())
+# # display(nn_v3.summary())
 
 
-# In[39]:
+# # In[39]:
 
 
-# Fit the data to the model
+# # Fit the data to the model
 
-model_v3 = nn_v3.fit(X_train, y_train, epochs=100)
+# model_v3 = nn_v3.fit(X_train, y_train, epochs=100)
 
 
-# In[40]:
+# # In[40]:
 
 
-# Plot the loss over epochs
+# # Plot the loss over epochs
 
-plt.plot(model_v3.history["loss"])
-plt.title("Model V3 Training Loss Function")
-plt.xlabel('Epochs')
-plt.ylabel('Loss')
-plt.show()
+# plt.plot(model_v3.history["loss"])
+# plt.title("Model V3 Training Loss Function")
+# plt.xlabel('Epochs')
+# plt.ylabel('Loss')
+# plt.show()
 
 
-# In[41]:
+# # In[41]:
 
 
-# Plot the accuracy over epochs
+# # Plot the accuracy over epochs
 
-plt.plot(model_v3.history["accuracy"])
-plt.title("Model V3 Training Accuracy Function")
-plt.xlabel('Epochs')
-plt.ylabel('Accuracy')
-plt.show()
+# plt.plot(model_v3.history["accuracy"])
+# plt.title("Model V3 Training Accuracy Function")
+# plt.xlabel('Epochs')
+# plt.ylabel('Accuracy')
+# plt.show()
 
 
-# In[42]:
+# # In[42]:
 
 
-# Evaluate model on test set
+# # Evaluate model on test set
 
-model_loss, model_accuracy = nn_v3.evaluate(
-    X_test, y_test, verbose=2
-)
-# print(f"Loss: {model_loss}, Accuracy: {model_accuracy}")
+# model_loss, model_accuracy = nn_v3.evaluate(
+#     X_test, y_test, verbose=2
+# )
+# # print(f"Loss: {model_loss}, Accuracy: {model_accuracy}")
 
 
-# In[43]:
+# # In[43]:
 
 
-# Have the neural network cast its prediction on what pitch is next
+# # Have the neural network cast its prediction on what pitch is next
 
-y_pred = nn_v3.predict(X_test)
-pred_final = np.argmax(y_pred, axis=1)
+# y_pred = nn_v3.predict(X_test)
+# pred_final = np.argmax(y_pred, axis=1)
 
-# Translate results into pitch type
+# # Translate results into pitch type
 
-y_pred_converted = []
-for numbers in pred_final:
-    if numbers == 0:
-        y_pred_converted.append('CH')
-    elif numbers == 1:
-        y_pred_converted.append('CU')
-    elif numbers == 2:
-        y_pred_converted.append('FF')
-    else: 
-        y_pred_converted.append('SL')
+# y_pred_converted = []
+# for numbers in pred_final:
+#     if numbers == 0:
+#         y_pred_converted.append('CH')
+#     elif numbers == 1:
+#         y_pred_converted.append('CU')
+#     elif numbers == 2:
+#         y_pred_converted.append('FF')
+#     else: 
+#         y_pred_converted.append('SL')
 
-# Create into dataframe
-final_results_v3 = pd.DataFrame({
-    'Predictions': y_pred_converted,
-    'Actual':  y_test_reverted})
+# # Create into dataframe
+# final_results_v3 = pd.DataFrame({
+#     'Predictions': y_pred_converted,
+#     'Actual':  y_test_reverted})
 
 # display(final_results_v3.head())
 # print(classification_report(final_results_v3['Actual'], final_results_v3['Predictions']))
@@ -853,31 +853,31 @@ model_loss, model_accuracy = nn_v0.evaluate(
 
 # Evaluate model 2 on test set
 
-model_loss, model_accuracy = nn_v1.evaluate(
-    X_real_testing, dummy_y_real, verbose=2
-)
-# print(f"Loss: {model_loss}, Accuracy: {model_accuracy}")
+# model_loss, model_accuracy = nn_v1.evaluate(
+#     X_real_testing, dummy_y_real, verbose=2
+# )
+# # print(f"Loss: {model_loss}, Accuracy: {model_accuracy}")
 
 
-# In[55]:
+# # In[55]:
 
 
-# Evaluate model 3 on test set
+# # Evaluate model 3 on test set
 
-model_loss, model_accuracy = nn_v2.evaluate(
-    X_real_testing, dummy_y_real, verbose=2
-)
-# print(f"Loss: {model_loss}, Accuracy: {model_accuracy}")
-
-
-# In[56]:
+# model_loss, model_accuracy = nn_v2.evaluate(
+#     X_real_testing, dummy_y_real, verbose=2
+# )
+# # print(f"Loss: {model_loss}, Accuracy: {model_accuracy}")
 
 
-# Evaluate model 4 on test set
+# # In[56]:
 
-model_loss, model_accuracy = nn_v3.evaluate(
-    X_real_testing, dummy_y_real, verbose=2
-)
+
+# # Evaluate model 4 on test set
+
+# model_loss, model_accuracy = nn_v3.evaluate(
+#     X_real_testing, dummy_y_real, verbose=2
+# )
 # print(f"Loss: {model_loss}, Accuracy: {model_accuracy}")
 
 
@@ -887,14 +887,14 @@ model_loss, model_accuracy = nn_v3.evaluate(
 # # Have the neural network cast its prediction on what pitch is next
 
 y_pred_v0 = nn_v0.predict(X_real_testing)
-y_pred_v1 = nn_v1.predict(X_real_testing)
-y_pred_v2 = nn_v2.predict(X_real_testing)
-y_pred_v3 = nn_v3.predict(X_real_testing)
+# y_pred_v1 = nn_v1.predict(X_real_testing)
+# y_pred_v2 = nn_v2.predict(X_real_testing)
+# y_pred_v3 = nn_v3.predict(X_real_testing)
 
 pred_final_v0 = np.argmax(y_pred_v0, axis=1)
-pred_final_v1 = np.argmax(y_pred_v1, axis=1)
-pred_final_v2 = np.argmax(y_pred_v2, axis=1)
-pred_final_v3 = np.argmax(y_pred_v3, axis=1)
+# pred_final_v1 = np.argmax(y_pred_v1, axis=1)
+# pred_final_v2 = np.argmax(y_pred_v2, axis=1)
+# pred_final_v3 = np.argmax(y_pred_v3, axis=1)
 
 # Translate target of test set into pitch type
 
@@ -915,22 +915,22 @@ final_results_real = pd.DataFrame()
 
 # Translate results into pitch type
 
-for arrays in [pred_final_v0, pred_final_v1, pred_final_v2, pred_final_v3]:
-    y_pred_converted = []
-    for numbers in arrays:
-        if numbers == 0:
-            y_pred_converted.append('CH')
-        elif numbers == 1:
-            y_pred_converted.append('CU')
-        elif numbers == 2:
-            y_pred_converted.append('FF')
-        else: 
-            y_pred_converted.append('SL')
-    y_pred_series = pd.DataFrame(y_pred_converted)
-    final_results_real = pd.concat([final_results_real, y_pred_series], axis=1)
+# for arrays in [pred_final_v0, pred_final_v1, pred_final_v2, pred_final_v3]:
+#     y_pred_converted = []
+#     for numbers in arrays:
+#         if numbers == 0:
+#             y_pred_converted.append('CH')
+#         elif numbers == 1:
+#             y_pred_converted.append('CU')
+#         elif numbers == 2:
+#             y_pred_converted.append('FF')
+#         else: 
+#             y_pred_converted.append('SL')
+#     y_pred_series = pd.DataFrame(y_pred_converted)
+#     final_results_real = pd.concat([final_results_real, y_pred_series], axis=1)
 
-final_results_real = pd.concat([final_results_real, y_real_testing], axis=1)
-final_results_real.columns = ['Model 1 (v0) Pred', 'Model 2 (v1) Pred', 'Model 3 (v2) Pred', 'Model 4 (v3) Pred', 'Actual']
+# final_results_real = pd.concat([final_results_real, y_real_testing], axis=1)
+# final_results_real.columns = ['Model 1 (v0) Pred', 'Model 2 (v1) Pred', 'Model 3 (v2) Pred', 'Model 4 (v3) Pred', 'Actual']
 
 # display(final_results_real)
 # print(classification_report(final_results_real['Actual'], final_results_real['Model 1 (v0) Pred']))
