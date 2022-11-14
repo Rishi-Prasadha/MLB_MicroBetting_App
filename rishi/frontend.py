@@ -126,22 +126,22 @@ if st.button("Make Bet"):
     if pitch_type == "Fastball":
         ff_df["Address"].append(address)
         ff_df["Bet Amount"].append(bet_amount)
-        ff_df["Odds"].append(odds[pitch_type])
+        ff_df["Odds"].append(p2.odds[pitch_type])
         ff_df["Payout"].append(payout)
     elif pitch_type == "Curveball":
         cu_df["Address"].append(address)
         cu_df["Bet Amount"].append(bet_amount)
-        cu_df["Odds"].append(odds[pitch_type])
+        cu_df["Odds"].append(p2.odds[pitch_type])
         cu_df["Payout"].append(payout)  
     elif pitch_type == "Changeup":
         ch_df["Address"].append(address)
         ch_df["Bet Amount"].append(bet_amount)
-        ch_df["Odds"].append(odds[pitch_type])
+        ch_df["Odds"].append(p2.odds[pitch_type])
         ch_df["Payout"].append(payout)
     else:
         sl_df["Address"].append(address)
         sl_df["Bet Amount"].append(bet_amount)
-        sl_df["Odds"].append(odds[pitch_type])
+        sl_df["Odds"].append(p2.odds[pitch_type])
         sl_df["Payout"].append(payout)
 
     # Submit the transaction to the smart contract 
@@ -153,7 +153,7 @@ st.markdown("When you're ready to move on to the next pitch please press *Next P
 pitch_count = 0
 if st.button("Next Pitch"):
     # iterates through addresses and pays out the winners 
-    next_pitch = list(verlander_df['pitch_type'])
+    next_pitch = list(p2.field_df['pitch_type'])
     if next_pitch[pitch_count] == "SL":
         sl_address = list(sl_df['Address'])
         sl_payouts = list(sl_df['Payout'])
