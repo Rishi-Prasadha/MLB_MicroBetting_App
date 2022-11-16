@@ -1,61 +1,62 @@
 [
 	{
-		"stateMutability": "payable",
-		"type": "fallback"
-	},
-	{
-		"inputs": [],
-		"name": "checkBalance",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
+		"constant": false,
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "betAmount",
-				"type": "uint256"
-			}
-		],
-		"name": "makeBet",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "makeBet2",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address payable",
 				"name": "recipient",
 				"type": "address"
 			},
 			{
-				"internalType": "uint256",
 				"name": "amount",
 				"type": "uint256"
 			}
 		],
 		"name": "payout",
 		"outputs": [],
+		"payable": true,
 		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "betAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "makeBet",
+		"outputs": [],
+		"payable": true,
 		"stateMutability": "payable",
-		"type": "receive"
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "makeBet2",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "checkBalance",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "fallback"
 	}
 ]

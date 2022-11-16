@@ -5,9 +5,11 @@ from pathlib import Path
 from dotenv import load_dotenv
 import streamlit as st
 import project2 as p2
-# to refer to noah's variables it will be: starter_code.variableName
+from bip44 import Wallet
+from web3 import Account
 import pandas as pd
 from web3.gas_strategies.time_based import medium_gas_price_strategy
+
 
 ################################################################################
 # Contract Helper function:
@@ -37,6 +39,23 @@ def load_contract():
     # Return the contract from the function
     return contract
 
+def generate_account(w3):
+    """Create a digital wallet and Ethereum account from a mnemonic seed phrase."""
+    # Access the mnemonic phrase from the `.env` file
+    mnemonic = os.getenv("MNEMONIC")
+
+    # Create Wallet object instance
+    wallet = Wallet(mnemonic)
+
+    # Derive Ethereum private key
+    private, public = wallet.derive_account("eth")
+
+    # Convert private key into an Ethereum account
+    account = Account.privateKeyToAccount(private)
+
+    # Return the account from the function
+    return account
+
 # Create a function called `send_transaction` that creates a raw transaction, signs it, and sends it. Return the confirmation hash from the transaction
 def send_transaction(w3, account, receiver, ether):
     """Send an authorized transaction."""
@@ -47,12 +66,12 @@ def send_transaction(w3, account, receiver, ether):
     wei_value = w3.toWei(ether, "ether")
 
     # Calculate gas estimate
-    gas_estimate = w3.eth.estimateGas({"to": receiver, "from": account, "value": wei_value})
+    gas_estimate = w3.eth.estimateGas({"to": receiver, "from": account.address, "value": wei_value})
 
     # Construct a raw transaction
     raw_tx = {
         "to": receiver,
-        "from": account,
+        "from": account.address,
         "value": wei_value,
         "gas": gas_estimate,
         "gasPrice": 0,

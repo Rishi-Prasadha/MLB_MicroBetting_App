@@ -15,6 +15,10 @@ w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
 # Load the contract
 contract = load_contract()
 
+# Create accounts from Ganache
+accounts = w3.eth.accounts
+account = accounts[0]
+
 ################################################################################
 # Design
 ################################################################################
@@ -35,8 +39,10 @@ st.markdown('---')
 col1, col2 = st.columns([1, 1])
 with col1:
     st.subheader('Current Pitch Number:')
+    st.subheader(p2.verlander_df['pitch_count'][0])
 with col2:
     st.subheader('Current Pitch Count:')
+    st.subheader(p2.verlander_df['count'][0])
 
 st.markdown('---')
 
@@ -50,15 +56,12 @@ st.markdown('---')
 
 with st.container():
     st.markdown('#### To make a bet:')
-    address = st.text_input("Enter your Ethereum address here")
+    address = st.selectbox(label = 'Select your Ethereum account:', options = accounts)
     bet_amount = int(st.number_input("Enter how much you want to bet (in ETH)"))
 
 ################################################################################
 # Place the bet
 ################################################################################
-
-accounts = w3.eth.accounts
-account = accounts[1]
 
 payout = 0.98*((1/p2.odds[pitch_type]) * float(bet_amount))
 # or payout = ((1/odds[pitch_type]) * bet_amount) - (0.02)*((1/odds[pitch_type]) * bet_amount)
@@ -131,7 +134,7 @@ if st.button("Make Bet"):
         sl_df.append(current_bttr)
 
     # Submit the transaction to the smart contract 
-    transaction_hash = send_transaction(w3, address, os.getenv("WEB3_PROVIDER_URI"), bet_amount)
+    transaction_hash = send_transaction(w3, address, os.getenv("SMART_CONTRACT_ADDRESS"), bet_amount)
 
     # Display the Etheremum Transaction Hash
     st.text("\n")
