@@ -10,7 +10,7 @@ contract bttrEscrow {
     //Function where user will submit their bets
     function makeBet(uint betAmount) public payable {
         address(this).transfer(betAmount);
-        contractBalance = account(this).balance;
+        contractBalance = address(this).balance;
     }
 
     //gotta write the function that can do the math and call the function
@@ -19,7 +19,7 @@ contract bttrEscrow {
     function payout(address payable recipient, uint amount) public payable{
         if (amount < address(this).balance) {
             recipient.transfer(amount);
-            contractBalance = account(this).balance;
+            contractBalance = address(this).balance;
             //uint balance = address(this).balance;
         }
         // recalling all the bets made for this instance
