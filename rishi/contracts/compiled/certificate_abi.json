@@ -3,20 +3,6 @@
 		"constant": false,
 		"inputs": [
 			{
-				"name": "betAmount",
-				"type": "uint256"
-			}
-		],
-		"name": "makeBet",
-		"outputs": [],
-		"payable": true,
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
 				"name": "recipient",
 				"type": "address"
 			},
@@ -32,20 +18,45 @@
 		"type": "function"
 	},
 	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "betAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "makeBet",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "makeBet2",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "checkBalance",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"payable": true,
 		"stateMutability": "payable",
 		"type": "fallback"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"name": "currentOdds",
-				"type": "int256"
-			}
-		],
-		"name": "Odds",
-		"type": "event"
 	}
 ]
