@@ -66,11 +66,11 @@ def send_transaction(w3, account, receiver, ether):
     wei_value = w3.toWei(ether, "ether")
 
     # Calculate gas estimate
-    gas_estimate = w3.eth.estimateGas({"to": receiver, "from": account.address, "value": wei_value})
+    gas_estimate = w3.eth.estimateGas({"to": receiver.address, "from": account.address, "value": wei_value})
 
     # Construct a raw transaction
     raw_tx = {
-        "to": receiver,
+        "to": receiver.address,
         "from": account.address,
         "value": wei_value,
         "gas": gas_estimate,

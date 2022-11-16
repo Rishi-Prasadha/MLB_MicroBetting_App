@@ -18,6 +18,7 @@ contract = load_contract()
 # Create accounts from Ganache
 accounts = w3.eth.accounts
 account = accounts[0]
+smart_contract = accounts[-1]
 
 ################################################################################
 # Design
@@ -56,7 +57,7 @@ st.markdown('---')
 
 with st.container():
     st.markdown('#### To make a bet:')
-    address = st.selectbox(label = 'Select your Ethereum account:', options = accounts)
+    address = st.selectbox(label = 'Select your Ethereum account:', options = accounts[:-1])
     bet_amount = int(st.number_input("Enter how much you want to bet (in ETH)"))
 
 ################################################################################
@@ -66,75 +67,12 @@ with st.container():
 payout = 0.98*((1/p2.odds[pitch_type]) * float(bet_amount))
 # or payout = ((1/odds[pitch_type]) * bet_amount) - (0.02)*((1/odds[pitch_type]) * bet_amount)
 
-# Holder dataframe that keeps all bets logged before sending to smart contract
-ff_df = pd.DataFrame({
-    "Address": [],
-    "Bet Amount": [],
-    "Odds": [],
-    "Payout": []
-})
-
-cu_df = pd.DataFrame({
-    "Address": [],
-    "Bet Amount": [],
-    "Odds": [],
-    "Payout": []
-})
-
-ch_df = pd.DataFrame({
-    "Address": [],
-    "Bet Amount": [],
-    "Odds": [],
-    "Payout": []
-})
-
-sl_df = pd.DataFrame({
-    "Address": [],
-    "Bet Amount": [],
-    "Odds": [],
-    "Payout": []
-})
-
 ################################# MAKE BET LOGIC ########################################
 st.markdown("If you have the right address and bet amount please press *Make Bet*")
 if st.button("Make Bet"):
 
-    # Store bets in dataframes
-    if pitch_type == "Fastball":
-        current_bttr = pd.DataFrame({
-            "Address": address,
-            "Bet Amount": bet_amount,
-            "Odds": p2.odds[pitch_type],
-            "Payout": payout       
-        })
-        ff_df.append(current_bttr)
-    elif pitch_type == "Curveball":
-        current_bttr = pd.DataFrame({
-            "Address": address,
-            "Bet Amount": bet_amount,
-            "Odds": p2.odds[pitch_type],
-            "Payout": payout       
-        })
-        cu_df.append(current_bttr)
-    elif pitch_type == "Changeup":
-        current_bttr = pd.DataFrame({
-            "Address": address,
-            "Bet Amount": bet_amount,
-            "Odds": p2.odds[pitch_type],
-            "Payout": payout       
-        })
-        ch_df.append(current_bttr)
-    else:
-        current_bttr = pd.DataFrame({
-            "Address": address,
-            "Bet Amount": bet_amount,
-            "Odds": p2.odds[pitch_type],
-            "Payout": payout       
-        })
-        sl_df.append(current_bttr)
-
     # Submit the transaction to the smart contract 
-    transaction_hash = send_transaction(w3, address, os.getenv("SMART_CONTRACT_ADDRESS"), bet_amount)
+    transaction_hash = send_transaction(w3, address, smart_contract, bet_amount)
 
     # Display the Etheremum Transaction Hash
     st.text("\n")
@@ -147,81 +85,33 @@ if st.button("Make Bet"):
 
 ################################# NEXT PITCH LOGIC ########################################
 st.markdown("When you're ready to move on to the next pitch please press *Next Pitch*")
-pitch_count = 0
+
 if st.button("Next Pitch"):
-    # iterates through addresses and pays out the winners 
+    pitch_count = 0
+
+    if pitch_type == "Fastball":
+        pitch_type = "FF"
+    elif pitch_type == "Curveball":
+        pitch_type = "CU"
+    elif pitch_type == "Changeup":
+        pitch_type = "CH"
+    else: 
+        pitch_type = "SL"
+    
     next_pitch = list(p2.field_df['pitch_type'])
-    if next_pitch[pitch_count] == "SL":
-        sl_address = list(sl_df['Address'])
-        sl_payouts = list(sl_df['Payout'])
-        i = 0
-        for address in sl_address:
-            contract.functions.payout(address, int(sl_payouts[i])).transact({'from': os.getenv("SMART_CONTRACT_ADDRESS") , 'to': address, 'gas': 1000000})
-            i += 1
-    elif next_pitch[pitch_count] == "FF":
-        ff_address = list(ff_df['Address'])
-        ff_payouts = list(ff_df['Payout'])
-        i = 0
-        for address in ff_address:
-            contract.functions.payout(address, int(ff_payouts[i])).transact({'from': os.getenv("SMART_CONTRACT_ADDRESS") , 'to': address, 'gas': 1000000})
-            i += 1
-    elif next_pitch[pitch_count] == "CU":
-        cu_address = list(cu_df['Address'])
-        cu_payouts = list(cu_df['Payout'])
-        i = 0
-        for address in cu_address:
-            contract.functions.payout(address, int(cu_payouts[i])).transact({'from': os.getenv("SMART_CONTRACT_ADDRESS") , 'to': address, 'gas': 1000000})
-            i += 1
-    elif next_pitch[pitch_count] == "CH":
-        ch_address = list(ch_df['Address'])
-        ch_payouts = list(ch_df['Payout'])
-        i = 0
-        for address in ch_address:
-            contract.functions.payout(address, int(ch_payouts[i])).transact({'from': os.getenv("SMART_CONTRACT_ADDRESS") , 'to': address, 'gas': 1000000})
-            i += 1
+    if next_pitch(pitch_count) == pitch_type:
+        transaction_hash = send_transaction(w3, smart_contract, address, payout)
 
-    # Need to delete and reset the data held in dataframes
-    ff_df = pd.DataFrame({
-    "Address": [],
-    "Bet Amount": [],
-    "Odds": [],
-    "Payout": []
-    })
-
-    cu_df = pd.DataFrame({
-        "Address": [],
-        "Bet Amount": [],
-        "Odds": [],
-        "Payout": []
-    })
-
-    ch_df = pd.DataFrame({
-        "Address": [],
-        "Bet Amount": [],
-        "Odds": [],
-        "Payout": []
-    })
-
-    sl_df = pd.DataFrame({
-        "Address": [],
-        "Bet Amount": [],
-        "Odds": [],
-        "Payout": []
-    })
+        # Display the Etheremum Transaction Hash
+        st.text("\n")
+        st.text("\n")
+        st.markdown("Congratulations, you won!")
+        st.markdown("## Ethereum Transaction Hash:")
+        st.write(transaction_hash)
+    else:
+        st.markdown("## You suck, you lost. Better luck next time")
 
     pitch_count += 1
-
-    # send a transaction that pays out or keeps funds if they lose 
-
-#     # transaction to the smart contract to clear current bets
-
-#     # Need to update on-screen components of the streamlit
-
-# if st.button("Submit Transaction"):
-#     # Send a transaction to the smart contract to make a bet 
-
-
-
 
 
 # if st.button("Award Certificate"):
