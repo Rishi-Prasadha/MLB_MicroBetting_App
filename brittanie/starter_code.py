@@ -7,6 +7,7 @@ import streamlit as st
 import project2 as p2
 # to refer to noah's variables it will be: starter_code.variableName
 import pandas as pd
+from functions import load_contract, send_transaction
 
 # Define and connect a new Web3 provider
 w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
@@ -158,7 +159,15 @@ if st.button("Make Bet"):
         sl_df.append(current_bttr)
 
     # Submit the transaction to the smart contract 
-    contract.functions.makeBet(int(bet_amount)).transact({'from': address, 'to': os.getenv("SMART_CONTRACT_ADDRESS"), 'gas': 1000000})
+    transaction_hash = send_transaction(w3, address, os.getenv("SMART_CONTRACT_ADDRESS"), bet_amount)
+
+    # Display the Etheremum Transaction Hash
+    st.text("\n")
+    st.text("\n")
+    st.markdown("## Ethereum Transaction Hash:")
+
+    st.write(transaction_hash)
+
 
 
 # ################################# NEXT PITCH LOGIC ########################################
