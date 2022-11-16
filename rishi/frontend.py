@@ -171,28 +171,28 @@ if st.button("Next Pitch"):
         sl_payouts = list(sl_df['Payout'])
         i = 0
         for address in sl_address:
-            contract.functions.payout(address, int(sl_payouts[i])).transact({'from': address, 'to': os.getenv("SMART_CONTRACT_ADDRESS"), 'gas': 1000000})
+            contract.functions.payout(address, int(sl_payouts[i])).transact({'from': os.getenv("SMART_CONTRACT_ADDRESS") , 'to': address, 'gas': 1000000})
             i += 1
     elif next_pitch[pitch_count] == "FF":
         ff_address = list(ff_df['Address'])
         ff_payouts = list(ff_df['Payout'])
         i = 0
         for address in ff_address:
-            contract.functions.payout(address, int(ff_payouts[i])).transact({'from': address, 'to': os.getenv("SMART_CONTRACT_ADDRESS"), 'gas': 1000000})
+            contract.functions.payout(address, int(ff_payouts[i])).transact({'from': os.getenv("SMART_CONTRACT_ADDRESS") , 'to': address, 'gas': 1000000})
             i += 1
     elif next_pitch[pitch_count] == "CU":
         cu_address = list(cu_df['Address'])
         cu_payouts = list(cu_df['Payout'])
         i = 0
         for address in cu_address:
-            contract.functions.payout(address, int(cu_payouts[i])).transact({'from': address, 'to': os.getenv("SMART_CONTRACT_ADDRESS"), 'gas': 1000000})
+            contract.functions.payout(address, int(cu_payouts[i])).transact({'from': os.getenv("SMART_CONTRACT_ADDRESS") , 'to': address, 'gas': 1000000})
             i += 1
     elif next_pitch[pitch_count] == "CH":
         ch_address = list(ch_df['Address'])
         ch_payouts = list(ch_df['Payout'])
         i = 0
         for address in ch_address:
-            contract.functions.payout(address, int(ch_payouts[i])).transact({'from': address, 'to': os.getenv("SMART_CONTRACT_ADDRESS"), 'gas': 1000000})
+            contract.functions.payout(address, int(ch_payouts[i])).transact({'from': os.getenv("SMART_CONTRACT_ADDRESS") , 'to': address, 'gas': 1000000})
             i += 1
 
     # Need to delete and reset the data held in dataframes
