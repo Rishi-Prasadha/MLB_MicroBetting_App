@@ -7,36 +7,10 @@ import streamlit as st
 import project2 as p2
 # to refer to noah's variables it will be: starter_code.variableName
 import pandas as pd
+from functions import load_contract, send_transaction
 
 # Define and connect a new Web3 provider
 w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
-
-################################################################################
-# Contract Helper function:
-# 1. Loads the contract once using cache
-# 2. Connects to the contract using the contract address and ABI
-################################################################################
-
-# Cache the contract on load
-# @st.cache(allow_output_mutation=True)
-# Define the load_contract function
-def load_contract():
-
-    # Load Art Gallery ABI
-    with open(Path('./contracts/compiled/certificate_abi.json')) as f:
-        certificate_abi = json.load(f)
-
-    # Set the contract address (this is the address of the deployed contract)
-    contract_address = os.getenv("SMART_CONTRACT_ADDRESS")
-
-    # Get the contract
-    contract = w3.eth.contract(
-        address=contract_address,
-        abi=certificate_abi
-    )
-    # Return the contract from the function
-    return contract
-
 
 # Load the contract
 contract = load_contract()
@@ -77,7 +51,7 @@ st.markdown('---')
 with st.container():
     st.markdown('#### To make a bet:')
     address = st.text_input("Enter your Ethereum address here")
-    bet_amount = st.number_input("Enter how much you want to bet (in ETH)")
+    bet_amount = int(st.number_input("Enter how much you want to bet (in ETH)"))
 
 ################################################################################
 # Place the bet
@@ -157,7 +131,15 @@ if st.button("Make Bet"):
         sl_df.append(current_bttr)
 
     # Submit the transaction to the smart contract 
-    contract.functions.makeBet(int(bet_amount)).transact({'from': address, 'to': os.getenv("SMART_CONTRACT_ADDRESS"), 'gas': 1000000})
+    transaction_hash = send_transaction(w3, address, os.getenv("WEB3_PROVIDER_URI"), bet_amount)
+
+    # Display the Etheremum Transaction Hash
+    st.text("\n")
+    st.text("\n")
+    st.markdown("## Ethereum Transaction Hash:")
+
+    st.write(transaction_hash)
+
 
 
 ################################# NEXT PITCH LOGIC ########################################
