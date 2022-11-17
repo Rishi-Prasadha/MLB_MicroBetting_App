@@ -1,4 +1,4 @@
-# MLB_MicroBetting_App
+# MLB MicroBetting App
 
 The worldwide sports betting market is at a whopping $3 trillion. Behind the NFL and college football, the NBA, MLB and NHL make up the second largest market for sports betting at $80 Billion. Although there are many companies in the cryptocurrency sports betting arena, the area of micro-betting--the act of betting on real-time small, repetitive but key actions of players in the game--has not been explored yet. We are looking to create an application that will allow bettors to bet on Justin Verlander's pitches, pitch by pitch, aided by our in-house, hyper-optimized machine learning models. 
 
