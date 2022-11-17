@@ -9,9 +9,6 @@ from web3 import middleware
 from web3.gas_strategies.time_based import medium_gas_price_strategy
 from web3 import Web3
 
-# w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))
-# w3_2 = Web3(Web3.HTTPProvider('http://127.0.0.1:7545'))
-
 # Create a function called `generate_account` that automates the Ethereum
 # account creation process
 def generate_account_sender(w3):
@@ -53,11 +50,11 @@ def send_transaction(w3, sender, receiver, ether):
     wei_value = w3.toWei(ether, "ether")
 
     # Calculate gas estimate
-    gas_estimate = w3.eth.estimateGas({"to": receiver, "from": sender.address, "value": wei_value})
+    gas_estimate = w3.eth.estimateGas({"to": receiver.address, "from": sender.address, "value": wei_value})
 
     # Construct a raw transaction
     raw_tx = {
-        "to": receiver,
+        "to": receiver.address,
         "from": sender.address,
         "value": wei_value,
         "gas": gas_estimate,

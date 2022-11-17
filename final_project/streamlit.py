@@ -6,7 +6,6 @@ from pathlib import Path
 from dotenv import load_dotenv
 import streamlit as st
 import project2 as p2
-# to refer to noah's variables it will be: starter_code.variableName
 import pandas as pd
 
 # Import the functions from ethereum.py
@@ -47,7 +46,7 @@ with st.container():
     pitch_type = st.selectbox("Enter what type of pitch you think is coming next", ('Fastball', 'Curveball', 'Changeup', 'Slider'), label_visibility = 'hidden')
 
     st.subheader('Odds of Selected Pitch:')
-
+    st.dataframe(p2.odds.iloc[0])
 st.markdown('---')
 
 # Generate the Ethereum account
@@ -72,23 +71,20 @@ st.write(ether_balance)
 st.markdown("## Make a Bet")
 
 # Create inputs for the receiver address and ether amount
-st.write('Company Address: 0x12ca0F0b154D156AF0a629E9BD1104B5dea5BF0b')
-receiver = st.text_input("Copy the company address above.")
+company_account = Account.privateKeyToAccount(os.getenv("company_private_key"))
 ether = st.number_input("Input the amount of ether you want to bet.")
 
 # Create a button that calls the `send_transaction` function and returns the transaction hash
 if st.button("Make Bet"):
 
-    transaction_hash = send_transaction(w3_better, better_account, receiver, ether)
+    transaction_hash = send_transaction(w3_better, better_account, company_account, ether)
 
     # Display the Etheremum Transaction Hash
     st.markdown("## Ethereum Transaction Hash:")
 
     st.write(transaction_hash)
 
-# payout = 0.98*((1/p2.odds[pitch_type]) * float(ether))
-
-payout = 0.98*(float(ether))
+payout = 0.98*((1/p2.odds[pitch_type]) * float(ether))
 
 if st.button("Check Results"):
     pitch_count = 0
@@ -104,8 +100,7 @@ if st.button("Check Results"):
     
     next_pitch = list(p2.field_df['pitch_type'])
     if next_pitch[0] == pitch_type:
-        company_account = Account.privateKeyToAccount(os.getenv("company_private_key"))
-        transaction_hash = send_transaction(w3_better, company_account, '0x49bAA3fbeEBeaeDb4CEc5A51B2E5FEb45B8A8f1e', payout)
+        transaction_hash = send_transaction(w3_better, company_account, better_account, payout)
         st.write(payout)
 
         # Display the Etheremum Transaction Hash
