@@ -1,3 +1,4 @@
+# Imports
 import os
 import json
 from web3 import Web3
@@ -5,23 +6,15 @@ from pathlib import Path
 from dotenv import load_dotenv
 import streamlit as st
 import project2 as p2
-# to refer to noah's variables it will be: starter_code.variableName
 import pandas as pd
-from functions import load_contract, send_transaction, generate_account, get_balance
+import streamlit as st
 
-# Define and connect a new Web3 provider
-w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
+# Import the functions from ethereum.py
+from functions import w3, w3_2, generate_account8545, generate_account7545, get_balance, send_transaction
 
-# Load the contract
-contract = load_contract()
 
-# Create accounts from Ganache
-# accounts = w3.eth.accounts
-# print(accounts)
-# account = accounts[0]
-# smart_contract = accounts[-1]
-
-account = generate_account(w3)
+w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))
+w3_2 = Web3(Web3.HTTPProvider('http://127.0.0.1:7545'))
 
 ################################################################################
 # Design
@@ -50,14 +43,18 @@ with col2:
 
 st.markdown('---')
 
+# Generate the Ethereum account
+account = generate_account8545(w3) #sender
+smart_contract = generate_account7545(w3_2) #receiver
+
 # The Ethereum Account Address
+st.text("\n")
+st.text("\n")
 st.markdown("## Ethereum Account Address")
 st.caption('(Pulled from Ganache)')
 
 # Write the Ethereum account address to the Streamlit page
 st.write(account.address)
-
-st.markdown('---')
 
 # Display the Etheremum Account balance
 st.text("\n")
@@ -68,7 +65,10 @@ st.markdown("## Ethereum Account Balance:")
 ether_balance = get_balance(w3, account.address)
 st.write(ether_balance)
 
-st.markdown('---')
+# An Ethereum Transaction
+st.text("\n")
+st.text("\n")
+st.markdown("## An Ethereum Transaction")
 
 with st.container():
     st.markdown('#### Select what type of pitch you think is coming next:')
@@ -81,7 +81,7 @@ st.markdown('---')
 with st.container():
     st.markdown('#### To make a bet:')
     # address = st.selectbox(label = 'Select your Ethereum account:', options = accounts[:-1])
-    bet_amount = int(st.number_input("Enter how much you want to bet (in ETH)"))
+    bet_amount = st.number_input("Enter how much you want to bet (in ETH)")
 
 ################################################################################
 # Place the bet
@@ -95,7 +95,7 @@ st.markdown("If you have the right address and bet amount please press *Make Bet
 if st.button("Make Bet"):
 
     # Submit the transaction to the smart contract 
-    transaction_hash = send_transaction(w3, address, smart_contract, bet_amount)
+    transaction_hash = send_transaction(w3, account, smart_contract, bet_amount)
 
     # Display the Etheremum Transaction Hash
     st.text("\n")
@@ -135,19 +135,3 @@ if st.button("Next Pitch"):
         st.markdown("## You suck, you lost. Better luck next time")
 
     pitch_count += 1
-
-
-# if st.button("Award Certificate"):
-    #contract.functions.awardCertificate(student_account, certificate_details).transact({'from': account, 'gas': 1000000})
-
-# All the math with odds happen in the front end streamlit part
-# All the payout or lack thereof math happens in the smart contract
-
-# Instead of creating a data structure in the smart contract, we want to hold all current bets in python
-# we separate them into different pitch types and whoever wins, we submit another transaction to the smart contract to pay out
-## payout function must take an address, on python side we need to loop through addresses and submit a payout transaction for each address
-
-######### QUESTIONS FOR ERIC 
-# How do you initialize a smart contract with a ton of ether?
-# If you are not working on remix, how do you get a function to pay an account?
-# how do you transfer money to the exterior

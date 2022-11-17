@@ -17,7 +17,8 @@ from web3.gas_strategies.time_based import medium_gas_price_strategy
 # 2. Connects to the contract using the contract address and ABI
 ################################################################################
 
-w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
+w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))
+w3_2 = Web3(Web3.HTTPProvider('http://127.0.0.1:7545'))
 
 # Cache the contract on load
 # @st.cache(allow_output_mutation=True)
@@ -39,10 +40,10 @@ def load_contract():
     # Return the contract from the function
     return contract
 
-def generate_account(w3):
+def generate_account8545(w3):
     """Create a digital wallet and Ethereum account from a mnemonic seed phrase."""
     # Access the mnemonic phrase from the `.env` file
-    mnemonic = os.getenv("MNEMONIC")
+    mnemonic = os.getenv("MNEMONIC8545")
 
     # Create Wallet object instance
     wallet = Wallet(mnemonic)
@@ -55,6 +56,35 @@ def generate_account(w3):
 
     # Return the account from the function
     return account
+
+def generate_account7545(w3):
+    """Create a digital wallet and Ethereum account from a mnemonic seed phrase."""
+    # Access the mnemonic phrase from the `.env` file
+    mnemonic = os.getenv("MNEMONIC7545")
+
+    # Create Wallet object instance
+    wallet = Wallet(mnemonic)
+
+    # Derive Ethereum private key
+    private, public = wallet.derive_account("eth")
+
+    # Convert private key into an Ethereum account
+    account = Account.privateKeyToAccount(private)
+
+    # Return the account from the function
+    return account
+
+def get_balance(w3, address):
+    """Using an Ethereum account address access the balance of Ether"""
+    # Get balance of address in Wei
+    wei_balance = w3.eth.get_balance(address)
+
+    # Convert Wei value to ether
+    ether = w3.fromWei(wei_balance, "ether")
+
+    # Return the value in ether
+    return ether
+
 
 # Create a function called `send_transaction` that creates a raw transaction, signs it, and sends it. Return the confirmation hash from the transaction
 def send_transaction(w3, account, receiver, ether):
