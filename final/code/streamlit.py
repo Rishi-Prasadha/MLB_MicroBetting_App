@@ -84,9 +84,15 @@ if st.button("Make Bet"):
 
     st.write(transaction_hash)
 
-payout = 0.98*((1/p2.odds[pitch_type]) * float(ether))
-
-# payout = 0.98*(float(ether))
+def payout():
+    if pitch_type == "Fastball":
+        return 0.98*((1/(p2.odds.iloc[0][2])) * float(ether))
+    elif pitch_type == "Curveball":
+        return 0.98*((1/(p2.odds.iloc[0][1])) * float(ether))
+    elif pitch_type == "Changeup":
+        return 0.98*((1/(p2.odds.iloc[0][0])) * float(ether))
+    else:
+        return 0.98*((1/(p2.odds.iloc[0][3])) * float(ether))
 
 if st.button("Check Results"):
     pitch_count = 0
@@ -102,8 +108,8 @@ if st.button("Check Results"):
     
     next_pitch = list(p2.field_df['pitch_type'])
     if next_pitch[0] == pitch_type:
-        transaction_hash = send_transaction(w3_better, company_account, better_account, payout)
-        st.write(payout)
+        transaction_hash = send_transaction(w3_better, company_account, better_account, payout())
+        st.write(payout())
 
         # Display the Etheremum Transaction Hash
         st.text("\n")
@@ -114,5 +120,6 @@ if st.button("Check Results"):
         st.write(transaction_hash)
     else:
         st.markdown("## You lost. Better luck next time")
+        st.write(payout())
 
     pitch_count += 1
