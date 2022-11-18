@@ -1,0 +1,7 @@
+## This document is written to outline the contributions from Brittanie, Jake and Rishi. Noah and Alessandro worked within their folders and had little overlap so their contributions are easily determinable. Please refer to the following:
+
+* Brittanie: Did the Streamlit front end design. Created the **send_transaction**, **generate_account**, and **get_balance** functions in the functions.py/ethereum.py file and got them to work for the final demonstration. Worked to debug issues with Ganache and Python connectivity, ultimately coming up with the final version without errors. Created the finalized *Check Results* button.
+
+* Rishi: Built the skeleton of the final code: imported my project 2 neural network and necessary data to plug in odds to application while hyper-optimization was taking place. Created the smart contract on Solidity (later scrapped due to time constraints). Wrote out the logic for the *Make Bet* and *Next Pitch* (later became *Check Results*) buttons.  Created functionality that allows for multiple bets for every pitch with Pandas dataframe (later scrapped due to time constraints). Created the **send_transaction** and **generate_account** functions in the functions.py/ethereum.py file. Worked to debug issues with Remix, Ganache and Python connectivity.
+
+* Jake: Created functionality that allows for multiple bets for every pitch with Pandas dataframe (later scrapped due to time constraints). Worked to debug issues with Remix, Ganache and Python connectivity. 
