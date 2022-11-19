@@ -81,7 +81,8 @@ import pandas as pd
 from ethereum import generate_account_sender, get_balance, send_transaction
 ```
 
-```
+```python
+# Imports
 import seaborn as sns
 import tensorflow as tf
 from tensorflow import keras
