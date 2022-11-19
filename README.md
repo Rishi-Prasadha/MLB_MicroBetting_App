@@ -41,6 +41,8 @@ Before running the above libraries, you will need to install them first. Please 
 
 `pip install bip_utils`
 
+`pip install scikit-optimize`
+
 In order to install Ganache, please follow the hyperlink under the *Technologies* section.
 
 ---
@@ -79,6 +81,22 @@ import pandas as pd
 from ethereum import generate_account_sender, get_balance, send_transaction
 ```
 
+```
+import seaborn as sns
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import backend as K
+from tensorflow.keras.layers import InputLayer, Input
+from tensorflow.keras.callbacks import TensorBoard
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.models import load_model
+from tensorflow.keras.callbacks import EarlyStopping
+
+import skopt
+from skopt import gp_minimize
+from skopt.space import Real, Categorical, Integer
+from skopt.utils import use_named_args
+```
 ---
 
 ## Database
@@ -108,7 +126,7 @@ Please ensure that our application is connected with your Ganache server with th
 
 ## Contributors
 
-[Brittanie Polasek](https://www.linkedin.com/in/brittanie-polasek/), [Rishi Prasadha](https://www.linkedin.com/in/rishi-prasadha-912212133/), Noah Saleh, Jake Wheeler, Alessandro Valentini
+[Brittanie Polasek](https://www.linkedin.com/in/brittanie-polasek/), [Rishi Prasadha](https://www.linkedin.com/in/rishi-prasadha-912212133/), Noah Saleh, Jake Wheeler, [Alessandro Valentini](https://www.linkedin.com/in/alex-valentini-29539a1a9/)
 
 ---
 
