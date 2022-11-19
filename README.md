@@ -123,6 +123,10 @@ Please ensure that our application is connected with your Ganache server with th
 
 ## Results
 
+### Alessandro's Neural Network:
+After running both tests on new data, they have never seen we can see that the hyper-optimized neural network model increased its accuracy score by 4%. It may not be such a high increase, but it shows that the hyper-optimized neural network could predict better than the default model. However, this model still needs a lot of optimization and work, especially since it isn't consistent with the outputs. This issue is likely caused to not having powerful software such as AWS or not finding the best parameters for the model. We can also notice that the precision section of both results seems skewed, which may be due to insufficient data. With more time on researching documentation for hyper-optimizing neural network on a software system rather than locally, we could produce a model that may have an accuracy score higher than the hyper-optimized model used here.
+
+
 --- 
 
 ## Contributors
