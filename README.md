@@ -124,8 +124,11 @@ Please ensure that our application is connected with your Ganache server with th
 ## Results
 
 ### Alessandro's Neural Network:
-After running both tests on new data, they have never seen we can see that the hyper-optimized neural network model increased its accuracy score by 4%. It may not be such a high increase, but it shows that the hyper-optimized neural network could predict better than the default model. However, this model still needs a lot of optimization and work, especially since it isn't consistent with the outputs. This issue is likely caused to not having powerful software such as AWS or not finding the best parameters for the model. We can also notice that the precision section of both results seems skewed, which may be due to insufficient data. With more time on researching documentation for hyper-optimizing neural network on a software system rather than locally, we could produce a model that may have an accuracy score higher than the hyper-optimized model used here.
+After running both tests on new data, they have never seen we can see that the hyper-optimized neural network model increased its accuracy score by 4%. It may not be such a high increase, but it shows that the hyper-optimized neural network could predict better than the default model. However, this model still needs a lot of optimization and work, especially since it isn't consistent with the outputs. This issue is likely caused to not having powerful software such as AWS due to it being run on a local drive or not finding the best parameters for the model. We can also notice that the precision section of both results seems skewed, which may be due to insufficient data. The model's data may need to be scaled and/or more data inputted for the precision to be outputed accurately. With more time on researching documentation for hyper-optimizing neural network on a software system rather than locally, we could produce a model that may have an accuracy score higher than the hyper-optimized model used here.
 
+<img width="388" alt="Screen Shot 2022-11-18 at 8 05 05 PM" src="https://user-images.githubusercontent.com/107083440/202829232-0770a1c9-d18f-4b43-addc-cf688940c3da.png">
+
+<img width="377" alt="Screen Shot 2022-11-18 at 8 05 33 PM" src="https://user-images.githubusercontent.com/107083440/202829263-62f65610-61bd-44a7-9981-7c6adee69934.png">
 
 --- 
 
