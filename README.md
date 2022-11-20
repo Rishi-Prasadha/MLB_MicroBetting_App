@@ -13,8 +13,10 @@ This application was written on Python. For the backend, blockchain application,
 * [BIP](https://pypi.org/project/bip-utils/)
 * [Streamlit](https://streamlit.io)
 
+For the random forest hyper-optimization, refer to the following tutorial
+* [Rapids](https://www.youtube.com/watch?v=BtE4d0v6Css&t=1270s&ab_channel=RAPIDSAI)
 
-For the hyper-optimization part of the program, we used the following libraries: 
+For the neural-network hyper-optimization part of the program, we used the following libraries: 
 * [Pandas](https://github.com/pandas-dev/pandas)
 * [Numpy](https://github.com/numpy/numpy)
 * [Scikit-Learn](https://scikit-learn.org/stable/)
@@ -44,6 +46,11 @@ Before running the above libraries, you will need to install them first. Please 
 `pip install scikit-optimize`
 
 In order to install Ganache, please follow the hyperlink under the *Technologies* section.
+
+To perform the random-forest hyper-optimization, please follow the [hyperlink](https://www.youtube.com/watch?v=BtE4d0v6Css&t=1270s&ab_channel=RAPIDSAI) under the *Technologies* section. 
+
+If you just want to run our code, delete the following default files and replace them with the ones in this repo: HPODatasets.py & rapids_sagemaker_hpo.ipynb .
+You'll also need to make a bucket and upload the hpo2_verlander_data.csv file. Then you'll have to update the 5th and 6th cells in the rapids_sagemaker_hpo.ipynb accordingly since you cannot create a bucket with the same name.
 
 ---
 
@@ -79,6 +86,13 @@ import pandas as pd
 
 # Import the functions from ethereum.py
 from ethereum import generate_account_sender, get_balance, send_transaction
+```
+
+For the random-forest hyper-optimization, refer to the imports below:
+
+```python
+import sagemaker
+from helper_functions import *
 ```
 
 For the neural-network hyper-optimization, refer to the imports below:
@@ -126,19 +140,21 @@ Please ensure that our application is connected with your Ganache server with th
 ## Results
 
 ### Noah's Hyper-optimized Random Forest:
-For context, this micro-betting-app project is our 2nd project on this pitching topic. Our 1st project consisted of us making several different machine-learning models to try an predict Verlander's next pitch. Noah's model ended up being the best, being 59% accurate. Though, as we found out in this project, 59% accurate is misleading because it is the model's accuracy from only 1 train-test split. For that particular split, the model seemed to have gotten lucky. This became apparent when Noah updated the pitching data (hpo2_verlander_data.csv in Noah's folder), and the model's accuracy dropped to ~53-54%.
+For context, this micro-betting-app project is our 2nd project on this pitching topic. Our 1st project consisted of us making several different machine-learning models to try an predict Verlander's next pitch. Noah's model ended up being the best, being 59% accurate. Though, as we found out in this project, 59% accurate is misleading because it is the model's accuracy from only 1 train-test split. For that particular split, the model seemed to have gotten lucky. This became apparent when Noah updated the pitching data, and the model's accuracy dropped to ~53-54%.
 
 As preparation for the HPO, Noah got rid of a bunch of features that had very little importance on the outcome of the next pitch. Ultimately, he reduced the number of features from 55 to 38, significantly reducing the compute time for the HPO. And the ~53-54% accuracy was retrained even with this reduction in features. Then, to reduce the chance of a lucky model, Noah initiated 5 train-test splits. The HPO job was trained to maximize the *average* accuracy of a given model acrost all 5 of those splits.
 
 The HPO job was computed on AWS's cloud servers. The HPO used the Bayesian method, which is one of the best HPO techniques. The HPO job ran for 6 & a half hours, during which 749 models were tested (750 is the maximum allowed with the particular setup used). Each model had a different combonation of hyper-paramters. The following image shows the tested ranges of those hyper-parameters:
 
+![hyper_params](./noah/hyper_params.png)
 
+The best model of those 749 had an accuracy of ~55.81%, which is an improvement of about 1-2% over the previous, non-hyper-optimized model. This was our best model. For context, a naive guess of a fastball everytime would garner about 48% accuracy. So, this model is about ~7-8% more accurate than a naive guess. For comparison some other people with fancy degrees have been able to achieve 10 or 15% accuracy above a naive guess when predicting pitches. The highest %accuracy we've seen someone else achieve when predicting pitches was 67%. So basically, our model is pretty good, but it's not the best in world. Here is a screenshot of the results:
 
-The best model of those 749 had an accuracy of ~55.81%, which is an improvement of about 1-2% over the previous, non-hyper-optimized model. This was our best model. For context, a naive guess of a fastball everytime would garner about 48% accuracy. So, this model is about ~7-8% more accurate than a naive guess. For comparison some other people with fancy degrees have been able to achieve 10 or 15% accuracy above a naive guess when predicting pitches. The highest %accuracy we've seen someone else achieve when predicting pitches was 67%. So basically, our model is pretty good, but it's not the best in world.
+![hyper_params](./noah/results.png)
 
 To truly find the best model, more than 750 models may need to be tested because the last few training jobs were still making very exploratory (rather than exploitative) guesses as shown below (exploitative guesses are guesses that are nearby really good guesses to see if an even better model is nearby):
 
-
+![hyper_params](./noah/last_jobs.png)
 
 ### Alessandro's Hyper-optimized Neural Network:
 After running both tests on new data, they have never seen we can see that the hyper-optimized neural network model increased its accuracy score by 4%. It may not be such a high increase, but it shows that the hyper-optimized neural network could predict better than the default model. However, this model still needs a lot of optimization and work, especially since it isn't consistent with the outputs. This issue is likely caused to not having powerful software such as AWS due to it being run on a local drive or not finding the best parameters for the model. We can also notice that the precision section of both results seems skewed, which may be due to insufficient data. The model's data may need to be scaled and/or more data inputted for the precision to be outputed accurately. With more time on researching documentation for hyper-optimizing neural network on a software system rather than locally, we could produce a model that may have an accuracy score higher than the hyper-optimized model used here.
