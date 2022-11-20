@@ -3,6 +3,7 @@
 The worldwide sports betting market is at a whopping $3 trillion. Behind the NFL, college football, and the NBA, MLB and the NHL make up the second largest market for sports betting at $80 Billion. Although there are many companies in the cryptocurrency sports betting arena, the area of micro-betting-- the act of betting on real-time small, repetitive but key actions of players in the game-- has not been explored yet. We are looking to create an application that will allow bettors to bet on Justin Verlander's pitches, pitch by pitch. In order to maximize profit, the initial betting odds would be determined by our in-house, hyper-optimized machine-learning models. This repo is just a POC/MVP, so if this project were to take off, we'd expand the betting to pitchers other than Justin Verlander, among other things.
 
 A link to view our presentation can be found [here](https://docs.google.com/presentation/d/1MGC5Rp2M2ozGc297LVacbyGyKW8kyhvc5PDpWsmPRwA/edit?usp=sharing) . This was a project we did for BootCampSpot, a 2U program through Rice University.
+
 ---
 
 ## Technologies 
