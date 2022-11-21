@@ -138,6 +138,14 @@ Our application utilizes the Streamlit library as a frontend where users and bet
 
 Please ensure that our application is connected with your Ganache server with the appropriate RPC server and account addresses. 
 
+Below you can see an example of how the BTTR app runs on Streamlit. 
+
+
+
+https://user-images.githubusercontent.com/106794202/202951215-2e3f8411-b976-4724-a6cd-5e7be70b71d2.mp4
+
+
+
 ---
 
 ## Results
