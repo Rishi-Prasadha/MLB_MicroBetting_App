@@ -4,6 +4,8 @@ The worldwide sports betting market is at a whopping $3 trillion. Behind the NFL
 
 A link to view our presentation can be found [here](https://docs.google.com/presentation/d/1MGC5Rp2M2ozGc297LVacbyGyKW8kyhvc5PDpWsmPRwA/edit?usp=sharing) . This was a project we did for BootCampSpot, a 2U program through Rice University.
 
+We estimate that it would cost $305,861/6-months to keep this app going. We also estimate that the profit would be ~$420.9 million for an ROI of 1,376%. To find out how we got these numbers, reference the presentation notes on slide 12 in our presentation linked just above.
+
 ---
 
 ## Technologies 
