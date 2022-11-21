@@ -4,4 +4,4 @@
 
 * **Rishi**: Built the skeleton of the final code: imported my project 2 neural network and necessary data to plug in odds to application while hyper-optimization was taking place. Created the smart contract on Solidity (later scrapped due to time constraints). Wrote out the logic for the *Make Bet* and *Next Pitch* (later became *Check Results*) buttons.  Created functionality that allows for multiple bets for every pitch with Pandas dataframe (later scrapped due to time constraints). Created the **send_transaction** and **generate_account** functions in the functions.py/ethereum.py file. Worked to debug issues with Remix, Ganache and Python connectivity.
 
-* **Jake**: Created functionality that allows for multiple bets for every pitch with Pandas dataframe (later scrapped due to time constraints). Worked to debug issues with Remix, Ganache and Python connectivity. 
+* **Jake**: Created functionality that allows for multiple bets for every pitch with Pandas dataframe (later scrapped due to time constraints). Worked to debug issues with Remix, Ganache and Python connectivity. Helped debug the .py files
